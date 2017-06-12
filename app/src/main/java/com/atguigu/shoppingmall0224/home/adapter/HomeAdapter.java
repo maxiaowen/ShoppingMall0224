@@ -1,6 +1,7 @@
 package com.atguigu.shoppingmall0224.home.adapter;
 
 import android.content.Context;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,6 +17,7 @@ import com.atguigu.shoppingmall0224.home.utils.GlideImageLoader;
 import com.atguigu.shoppingmall0224.uilts.Constants;
 import com.youth.banner.Banner;
 import com.youth.banner.listener.OnBannerListener;
+import com.zhy.magicviewpager.transformer.RotateYTransformer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -101,7 +103,7 @@ public class HomeAdapter extends RecyclerView.Adapter {
     @Override
     public int getItemCount() {
         //全部写完的时候修改成6，只实现一个类型的话就返回1
-        return 2;
+        return 3;
     }
 
     @Override
@@ -134,16 +136,13 @@ public class HomeAdapter extends RecyclerView.Adapter {
             BannerViewHolder bannerViewHolder = (BannerViewHolder) holder;
             //设置数据Banner的数据
             bannerViewHolder.setData(result.getBanner_info());
-        }
-        else if (getItemViewType(position) == CHANNEL) {
+        } else if (getItemViewType(position) == CHANNEL) {
             ChannelViewHolder channelViewHolder = (ChannelViewHolder) holder;
             //设置数据channel的数据
             channelViewHolder.setData(result.getChannel_info());
-        }
-
-         else if (getItemViewType(position) == ACT) {
+        } else if (getItemViewType(position) == ACT) {
             ActViewHolder actViewHolder = (ActViewHolder) holder;
-            actViewHolder.setData(resultBean.getAct_info());
+            actViewHolder.setData(result.getAct_info());
         }
         /*else if (getItemViewType(position) == SECKILL) {
             SeckillViewHolder seckillViewHolder = (SeckillViewHolder) holder;
@@ -219,8 +218,33 @@ public class HomeAdapter extends RecyclerView.Adapter {
 
     class ActViewHolder extends RecyclerView.ViewHolder{
 
-        public ActViewHolder(View itemView) {
+        private final Context mContext;
+        private ViewPager act_viewpager;
+
+        public ActViewHolder(Context mContext, View itemView) {
             super(itemView);
+            this.mContext = mContext;
+            act_viewpager = (ViewPager) itemView.findViewById(R.id.act_viewpager);
+        }
+
+        public void setData(final List<HomeBean.ResultBean.ActInfoBean> act_info) {
+            //设置ViewPager的适配器
+            ViewPagerAdapter adapter = new ViewPagerAdapter(mContext,act_info);
+            act_viewpager.setAdapter(adapter);
+            //设置间距
+            act_viewpager.setPageMargin(20);
+            act_viewpager.setPageTransformer(true, new
+                    RotateYTransformer());
+
+            //设置点击事件
+            adapter.setOnItemClickListener(new ViewPagerAdapter.OnItemClickListener() {
+                @Override
+                public void onItemClick(int position) {
+                    HomeBean.ResultBean.ActInfoBean actInfoBean = act_info.get(position);
+                    Toast.makeText(mContext, ""+actInfoBean.getName(), Toast.LENGTH_SHORT).show();
+                }
+            });
+
         }
     }
 }
