@@ -2,13 +2,20 @@ package com.atguigu.shoppingmall0224.home.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.atguigu.shoppingmall0224.R;
 import com.atguigu.shoppingmall0224.home.bean.HomeBean;
+import com.atguigu.shoppingmall0224.home.utils.GlideImageLoader;
+import com.atguigu.shoppingmall0224.uilts.Constants;
+import com.youth.banner.Banner;
+import com.youth.banner.listener.OnBannerListener;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -147,14 +154,33 @@ public class HomeAdapter extends RecyclerView.Adapter {
 
     class BannerViewHolder extends RecyclerView.ViewHolder{
         private final Context mContext;
+        private Banner banner;
 
         public BannerViewHolder(Context mContext, View itemView) {
             super(itemView);
             this.mContext = mContext;
+            banner = (Banner) itemView.findViewById(R.id.banner);
         }
 
         public void setData(List<HomeBean.ResultBean.BannerInfoBean> banner_info) {
 
+            //设置Banner 数据
+            List<String> images = new ArrayList<>();
+            for(int i = 0; i < banner_info.size(); i++) {
+                images.add(Constants.BASE_URL_IMAGE+banner_info.get(i).getImage());
+                Log.e("TAG","ddd=="+banner_info.get(i).getImage());
+            }
+
+            banner.setImages(images)
+                    .setImageLoader(new GlideImageLoader())
+                    .setOnBannerListener(new OnBannerListener() {
+                        @Override
+                        public void OnBannerClick(int position) {
+
+                            Toast.makeText(mContext, "position=="+position, Toast.LENGTH_SHORT).show();
+                        }
+                    })
+                    .start();
         }
     }
 
