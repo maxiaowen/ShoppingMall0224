@@ -6,6 +6,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.GridView;
 import android.widget.Toast;
 
 import com.atguigu.shoppingmall0224.R;
@@ -111,10 +113,11 @@ public class HomeAdapter extends RecyclerView.Adapter {
         else if (viewType == CHANNEL) {
             return new ChannelViewHolder(mContext, inflater.inflate(R.layout.channel_item, null));
         }
-         /*
+
         else if (viewType == ACT) {
             return new ActViewHolder(mContext, inflater.inflate(R.layout.act_item, null));
-        } else if (viewType == SECKILL) {
+        }
+        /*else if (viewType == SECKILL) {
             return new SeckillViewHolder(mContext, inflater.inflate(R.layout.seckill_item, null));
         } else if (viewType == RECOMMEND) {
             return new RecommendViewHolder(mContext, inflater.inflate(R.layout.recommend_item, null));
@@ -134,13 +137,15 @@ public class HomeAdapter extends RecyclerView.Adapter {
         }
         else if (getItemViewType(position) == CHANNEL) {
             ChannelViewHolder channelViewHolder = (ChannelViewHolder) holder;
+            //设置数据channel的数据
             channelViewHolder.setData(result.getChannel_info());
         }
 
-        /* else if (getItemViewType(position) == ACT) {
+         else if (getItemViewType(position) == ACT) {
             ActViewHolder actViewHolder = (ActViewHolder) holder;
             actViewHolder.setData(resultBean.getAct_info());
-        } else if (getItemViewType(position) == SECKILL) {
+        }
+        /*else if (getItemViewType(position) == SECKILL) {
             SeckillViewHolder seckillViewHolder = (SeckillViewHolder) holder;
             seckillViewHolder.setData(resultBean.getSeckill_info());
         } else if (getItemViewType(position) == RECOMMEND) {
@@ -187,14 +192,35 @@ public class HomeAdapter extends RecyclerView.Adapter {
     class ChannelViewHolder extends RecyclerView.ViewHolder{
 
         private final Context mContext;
+        private GridView gv;
 
         public ChannelViewHolder(Context mContext, View itemView) {
             super(itemView);
             this.mContext = mContext;
+            gv = (GridView) itemView.findViewById(R.id.gv);
         }
 
-        public void setData(List<HomeBean.ResultBean.ChannelInfoBean> channel_info) {
+        public void setData(final List<HomeBean.ResultBean.ChannelInfoBean> channel_info) {
+            ChannelAdapter adapter = new ChannelAdapter(mContext,channel_info);
+            gv.setAdapter(adapter);
 
+            //设置点击某一条的监听
+            gv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    HomeBean.ResultBean.ChannelInfoBean channelInfoBean = channel_info.get(position);
+                    Toast.makeText(mContext, ""+channelInfoBean.getChannel_name(), Toast.LENGTH_SHORT).show();
+                }
+            });
+
+
+        }
+    }
+
+    class ActViewHolder extends RecyclerView.ViewHolder{
+
+        public ActViewHolder(View itemView) {
+            super(itemView);
         }
     }
 }
