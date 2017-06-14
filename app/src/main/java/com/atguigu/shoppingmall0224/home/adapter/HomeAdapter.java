@@ -6,7 +6,6 @@ import android.os.Handler;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -187,7 +186,6 @@ public class HomeAdapter extends RecyclerView.Adapter {
             List<String> images = new ArrayList<>();
             for (int i = 0; i < banner_info.size(); i++) {
                 images.add(Constants.BASE_URL_IMAGE + banner_info.get(i).getImage());
-                Log.e("TAG", "ddd==" + banner_info.get(i).getImage());
             }
 
             banner.setImages(images)
