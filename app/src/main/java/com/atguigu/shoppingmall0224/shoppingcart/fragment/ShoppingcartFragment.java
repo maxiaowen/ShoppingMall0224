@@ -80,7 +80,7 @@ public class ShoppingcartFragment extends BaseFragment {
             //有数据-空布局隐藏
             llEmptyShopcart.setVisibility(View.GONE);
             //设置适配器
-            ShoppingCartAdapter adapter = new ShoppingCartAdapter(mContext,datas);
+            ShoppingCartAdapter adapter = new ShoppingCartAdapter(mContext,datas,checkboxAll,tvShopcartTotal,cbAll);
             recyclerview.setAdapter(adapter);
             //设置布局管理器
             recyclerview.setLayoutManager(new LinearLayoutManager(mContext,LinearLayoutManager.VERTICAL,false));

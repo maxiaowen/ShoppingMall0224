@@ -26,12 +26,38 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<ShoppingCartAdapte
 
     private final Context context;
     private final ArrayList<GoodsBean> datas;
+    private final CheckBox checkboxAll;
+    private final TextView tvShopcartTotal;
+    private final CheckBox cbAll;
 
 
-    public ShoppingCartAdapter(Context mContext, ArrayList<GoodsBean> datas) {
+    public ShoppingCartAdapter(Context mContext, ArrayList<GoodsBean> datas, CheckBox checkboxAll, TextView tvShopcartTotal, CheckBox cbAll) {
         this.context = mContext;
         this.datas = datas;
+        this.checkboxAll = checkboxAll;
+        this.tvShopcartTotal = tvShopcartTotal;
+        this.cbAll = cbAll;
+
+        showTotalPrice();
     }
+
+    private void showTotalPrice() {
+        tvShopcartTotal.setText("合计："+getTotalPrice());
+    }
+
+    private double getTotalPrice() {
+        double result = 0;
+        if(datas != null && datas.size()>0) {
+            for(int i = 0; i < datas.size(); i++) {
+                GoodsBean goodsBean = datas.get(i);
+                if(goodsBean.isCheck()) {
+                    result = result + goodsBean.getNumber() * Double.parseDouble(goodsBean.getCover_price());
+                }
+            }
+        }
+        return result;
+    }
+
 
     @Override
     public int getItemCount() {
@@ -88,6 +114,9 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<ShoppingCartAdapte
                     goodsBean.setCheck(!goodsBean.isCheck());
                     //刷新适配器
                     notifyItemChanged(getLayoutPosition());
+
+                    //重新显示总价格
+                    showTotalPrice();
                 }
             });
         }
