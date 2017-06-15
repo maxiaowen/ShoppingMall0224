@@ -39,6 +39,37 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<ShoppingCartAdapte
         this.cbAll = cbAll;
 
         showTotalPrice();
+
+        checkAll();
+    }
+
+    private void checkAll() {
+        if(datas != null && datas.size() >0){
+            int number = 0;
+
+            for(int i = 0; i < datas.size(); i++) {
+                GoodsBean goodsBean = datas.get(i);
+                //只要有一个不选中就设置非全选
+                if(!goodsBean.isCheck()){
+                    cbAll.setChecked(false);
+                    checkboxAll.setChecked(false);
+                }else{
+                    number ++;
+                }
+            }
+
+            if(number ==datas.size()){
+                cbAll.setChecked(true);
+                checkboxAll.setChecked(true);
+            }
+
+
+        }else {
+            //没有数据
+            cbAll.setChecked(false);
+            checkboxAll.setChecked(false);
+        }
+
     }
 
     private void showTotalPrice() {
@@ -117,6 +148,9 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<ShoppingCartAdapte
 
                     //重新显示总价格
                     showTotalPrice();
+
+                    //校验是否全选
+                    checkAll();
                 }
             });
         }
