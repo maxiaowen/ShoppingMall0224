@@ -1,5 +1,6 @@
 package com.atguigu.shoppingmall0224.home.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -129,5 +130,17 @@ public class MainActivity extends AppCompatActivity {
 
         //一进入要显示的Fragment
 //        switchFragment(fragments.get(position));
+    }
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        int checkid = intent.getIntExtra("checkid", R.id.rb_home);
+        if(checkid ==R.id.rb_home){
+            //选中首页
+            rgMain.check(R.id.rb_home);
+        }else if(checkid ==R.id.rb_cart){
+            //选中购物车
+            rgMain.check(R.id.rb_cart);
+        }
     }
 }
