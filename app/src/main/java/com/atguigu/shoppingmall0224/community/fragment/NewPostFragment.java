@@ -8,6 +8,7 @@ import android.widget.ListView;
 import com.alibaba.fastjson.JSON;
 import com.atguigu.shoppingmall0224.R;
 import com.atguigu.shoppingmall0224.base.BaseFragment;
+import com.atguigu.shoppingmall0224.community.adapter.NewPostListViewAdapter;
 import com.atguigu.shoppingmall0224.community.bean.NewPostBean;
 import com.atguigu.shoppingmall0224.uilts.Constants;
 import com.zhy.http.okhttp.OkHttpUtils;
@@ -29,6 +30,8 @@ public class NewPostFragment extends BaseFragment {
     @BindView(R.id.lv_new_post)
     ListView lvNewPost;
     Unbinder unbinder;
+
+    private NewPostListViewAdapter adapter;
 
     /**
      * 初始化控件
@@ -77,6 +80,8 @@ public class NewPostFragment extends BaseFragment {
      */
     private void processData(String response) {
         NewPostBean newPostBean = JSON.parseObject(response,NewPostBean.class);
+        adapter = new NewPostListViewAdapter(mContext,newPostBean.getResult());
+        lvNewPost.setAdapter(adapter);
 
 
     }
