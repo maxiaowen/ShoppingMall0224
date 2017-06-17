@@ -1,5 +1,6 @@
 package com.atguigu.shoppingmall0224.community.fragment;
 
+import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.View;
@@ -31,6 +32,8 @@ public class CommunityFragment extends BaseFragment {
     @BindView(R.id.view_pager)
     ViewPager viewPager;
     Unbinder unbinder;
+    @BindView(R.id.tablayout)
+    TabLayout tablayout;
 
     private ArrayList<BaseFragment> fragments;
     private CommunityViewPagerAdapter pagerAdapter;
@@ -53,8 +56,10 @@ public class CommunityFragment extends BaseFragment {
 
         MainActivity mainActivity = (MainActivity) mContext;
         //设置适配器
-        pagerAdapter = new CommunityViewPagerAdapter(mainActivity.getSupportFragmentManager(),fragments);
+        pagerAdapter = new CommunityViewPagerAdapter(mainActivity.getSupportFragmentManager(), fragments);
         viewPager.setAdapter(pagerAdapter);
+
+        tablayout.setupWithViewPager(viewPager);
     }
 
 
@@ -75,4 +80,6 @@ public class CommunityFragment extends BaseFragment {
                 break;
         }
     }
+
+
 }
