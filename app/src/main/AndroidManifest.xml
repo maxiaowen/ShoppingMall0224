@@ -24,7 +24,8 @@
             android:launchMode="singleTask" />
         <activity android:name=".app.GoodsInfoActivity" />
         <activity android:name=".app.WebViewActivity" />
-        <activity android:name=".shoppingcart.activity.CallCenterActivity"></activity>
+        <activity android:name=".shoppingcart.activity.CallCenterActivity" />
+        <activity android:name=".app.GoodsListActivity"></activity>
     </application>
 
 </manifest>
